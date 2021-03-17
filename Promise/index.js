@@ -76,22 +76,23 @@ let p = new MyPromise((resolve, reject) => {
   // resolve('123')
   // throw new Error('错误')
   setTimeout(() => {
-    reject('hahaha')
+    resolve('hahaha')
   }, 2000)
 })
-p.then(
+let p2 = p.then(
   (res) => {
-    console.log('1', res)
+    return p2
   },
   (rej) => {
     console.log('1', rej)
   }
 )
-p.then(
+
+p2.then(
   (res) => {
-    console.log('2', res)
+    console.log(res)
   },
   (rej) => {
-    console.log('2', rej)
+    console.log(rej)
   }
 )
