@@ -30,17 +30,85 @@ class PromisePeng {
       reject(e)
     }
   }
-  then(onFulfilled, onRejected) {
-    if (this.state === FULFILLED) {
-      onFulfilled(this.value)
+  then (onFulfilled, onRejected) {
+    onFulfilled =typeof onFulfilled === 'function' ?  onFulfilled:(value)=>value
+    onRejected = typeof onRejected === 'function' ? onRejected : (reason) => {throw reason}
+    console.log(onFulfilled, onRejected)
+    let promise2 = new PromisePeng((resolve, reject) => {
+      if (this.state === FULFILLED) {
+        setTimeout(() => {
+          try {
+            let x = onFulfilled(this.value)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (e) {
+            reject(e)
+          }
+        }, 0)
+      }
+      if (this.state === REJECTED) {
+        setTimeout(() => {
+          try {
+            let x = onRejected(this.reason)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (e) {
+            reject(e)
+          }
+        }, 0)
+      }
+      if (this.state === PENDING) {
+        this.onFulfilledCallbacks.push(() => {
+          try {
+            let x = onFulfilled(this.value)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (e) {
+            reject(e)
+          }
+        })
+        this.onRejectedCallbacks.push(() => {
+          try {
+            let x = onRejected(this.reason)
+            resolvePromise(promise2, x, resolve, reject)
+          } catch (e) {
+            reject(e)
+          }
+        })
+      }
+    })
+    return promise2
+  }
+}
+function resolvePromise(promise2, x, resolve, reject) {
+  if (promise2 === x) {
+    return reject(new TypeError('Chaining cycle detected for promise #<PromisePeng>'))
+  }
+  let called = false
+  if ((typeof x === 'object' && x !== null) || typeof x === 'function') {
+    try {
+      let then = x.then
+      if (typeof then === 'function') {
+        then.call(
+          x,
+          (y) => {
+            if (called) return
+            called = true
+            resolvePromise(promise2, y, resolve, reject)
+          },
+          (r) => {
+            if (called) return
+            called = true
+            reject(r)
+          }
+        )
+      } else {
+        resolve(x)
+      }
+    } catch (e) {
+      if (called) return
+      called = true
+      reject(e)
     }
-    if (this.state === REJECTED) {
-      onRejected(this.reason)
-    }
-    if (this.state === PENDING) {
-      this.onFulfilledCallbacks.push(() => onFulfilled(this.value))
-      this.onRejectedCallbacks.push(() => onRejected(this.reason))
-    }
+  } else {
+    resolve(x)
   }
 }
 
@@ -50,6 +118,12 @@ const o = new PromisePeng((resolve, reject) => {
   }, 1000)
 })
 
-o.then((value) => {
+let p = o.then((value) => {
   console.log(value)
+  return p
+})
+p.then((v) => {
+  console.log(v)
+}, (r) => {
+  console.log(r)
 })

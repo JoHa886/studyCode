@@ -43,6 +43,7 @@ class MyPromise {
             throw reason
           }
     let promise2 = new MyPromise((resolve, reject) => {
+      //then得返回一个promise
       if (this.state === FULFILLED) {
         setTimeout(() => {
           try {
