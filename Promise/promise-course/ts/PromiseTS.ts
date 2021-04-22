@@ -5,16 +5,38 @@ const PENDING: string = 'pending',
 class PromiseTS {
   value: any
   reason: any
+  status: string
+  onFulfilledCallback = []
+  onRejectedCallback = []
 
   constructor(executor) {
-    const resolve: void = (value) => {
-      this.value = value
+    const resolve: any = (value) => {
+      if (this.status === PENDING) {
+        this.status = FULFILLED
+        this.value = value
+      }
     }
 
-    const reject = (reason) => {
-      this.reason = reason
+    const reject: any = (reason) => {
+      if (this.status === PENDING) {
+        this.status = REJECTED
+        this.reason = reason
+      }
     }
-
-    executor(resolve, reject)
+    try {
+      executor(resolve, reject)
+    } catch (e) {
+      reject(e)
+    }
+  }
+  then(onFulfilled, onRejected) {
+    if (this.status === PENDING) {
+      this.onFulfilledCallback.push(() => {
+        onFulfilled(this.value)
+      })
+      this.onRejectedCallback.push(() => {
+        onRejected(this.value)
+      })
+    }
   }
 }

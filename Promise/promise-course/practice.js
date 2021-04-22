@@ -1,6 +1,6 @@
-const PENDING = 'pending',
-  FULFILLED = 'fulfilled',
-  REJECTED = 'rejected'
+// const PENDING = 'pending',
+//   FULFILLED = 'fulfilled',
+//   REJECTED = 'rejected'
 
 class PromisePeng {
   constructor(executor) {
@@ -30,10 +30,14 @@ class PromisePeng {
       reject(e)
     }
   }
-  then (onFulfilled, onRejected) {
-    onFulfilled =typeof onFulfilled === 'function' ?  onFulfilled:(value)=>value
-    onRejected = typeof onRejected === 'function' ? onRejected : (reason) => {throw reason}
-    console.log(onFulfilled, onRejected)
+  then(onFulfilled, onRejected) {
+    onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : (value) => value
+    onRejected =
+      typeof onRejected === 'function'
+        ? onRejected
+        : (reason) => {
+            throw reason
+          }
     let promise2 = new PromisePeng((resolve, reject) => {
       if (this.state === FULFILLED) {
         setTimeout(() => {
@@ -122,8 +126,11 @@ let p = o.then((value) => {
   console.log(value)
   return p
 })
-p.then((v) => {
-  console.log(v)
-}, (r) => {
-  console.log(r)
-})
+p.then(
+  (v) => {
+    console.log(v)
+  },
+    (r) => {
+      console.log(r)
+    }
+)
