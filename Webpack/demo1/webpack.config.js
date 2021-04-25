@@ -14,6 +14,9 @@ module.exports = {
     port: 8866,
     open: true
   },
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, 'loaders')]
+  },
   module: {
     rules: [
       {
@@ -22,6 +25,18 @@ module.exports = {
         // options: {
         //   outputPath: 'css'
         // }
+      },
+      {
+        test: /index\.js$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'mock-loader',
+            options: {
+              log: true
+            }
+          }
+        ]
       }
     ]
   },

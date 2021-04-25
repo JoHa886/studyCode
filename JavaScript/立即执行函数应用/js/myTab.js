@@ -54,7 +54,7 @@
       _doms.oPageItems[this._index].className = 'page-item'
       this._index = [].indexOf.call(_doms.oTabItems, tar)
       tar.className += ' current'
-      _doms.oPageItems[this._index].className += ' current'
+      _doms.oPageItems[this._index].className += 'current'
     }
   }
   window.MyTab = MyTab

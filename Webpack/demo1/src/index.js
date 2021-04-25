@@ -2,8 +2,8 @@ import './assets/css/style.css'
 import _ from 'lodash'
 const css1 = import('./assets/css/css1.css')
 const css2 = import('./assets/css/css2.css')
-function component() {
-  var element = document.createElement('div')
+function component(doc) {
+  var element = doc.createElement('div')
 
   element.innerHTML = _.join(['Hello', 'pjh'], ' ')
 
