@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="t1" value="aaa" placeholder="请输入" />
+    <button id="b1">按钮</button>
+    <div id="d1">aaaaaaaaa
+      <span>123</span>
+    </div>
+    <script>
+      const T1 = document.querySelector('#t1'),
+        B1 = document.querySelector('#b1'),
+        D1 = document.querySelector('#d1')
+
+      var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
+          console.log(mutation)
+          // if(mutation.target.value === '111'){
+          //   mutation.target.setAttribute('value','45')
+          // }
+        })
+      })
+      // 配置观察选项:
+      var config = { attributes: true, characterData: true, childList: true }
+      // 传入目标节点和观察选项
+      observer.observe(T1, config)
+
+      // var observer = new MutationObserver(function () {
+      //   console.debug(T1.value)
+      //   if (T1.value != null && T1.value != '') {
+      //     // changePerson()
+      //   }
+      //   console.log(T1)
+      // })
+      // //  定义需要监控dom的哪些内容
+      // observer.observe(T1, {
+      //   attributes: true,
+      //   attributeOldValue: false,
+      //   attributeFilter: ['value'],
+      //   characterData: true,
+      //   characterDataOldValue: true
+      // })
+
+      T1.oninput = function handleInput(e) {
+        // console.log(e.target.value, 'e')
+        // console.log(T1.value, 'T1')
+        // T1.value = e.target.value
+        // T1.setAttribute('value',e.target.value)
+        D1.textContent = e.target.value
+      }
+      B1.onclick = function handleClick(e) {
+        console.log(T1.attributes, 'attributes')
+        // T1.setAttribute('value','123')
+        D1.textContent = '222222'
+      }
+    </script>
+  </body>
+</html>

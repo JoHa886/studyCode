@@ -8,6 +8,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   mode: 'development',
+  optimization: {
+    minimize: false
+  },
   devServer: {
     contentBase: './dist',
     compress: true,
