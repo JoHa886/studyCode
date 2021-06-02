@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person(v) {
+        this.name = v
+        this.getName = function () {
+          console.log(this.name)
+        }
+      }
+      let p1 = new Person('Joha88')
+      console.log(p1.constructor)
+      console.log(Person.prototype.constructor)
+      console.log(p1)
+      console.log(Person.prototype)
+      p1.getName()
+      let p2 = new Person('Joha886')
+      console.log(p2)
+      p2.getName()
+      function A1(){
+        let n = 1+1
+      }
+      let a1 = new A1
+      console.log(a1)
+      console.log(A1.prototype)
+      delete A1.prototype.constructor
+      console.log(A1.prototype.constructor)
+    </script>
+  </body>
+</html>

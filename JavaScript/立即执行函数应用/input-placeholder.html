@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .my-input {
+        position: relative;
+        width: 200px;
+        height: 20px;
+      }
+      .my-input .input-main {
+        width: 100%;
+        height: 100%;
+      }
+      .plc {
+        position: absolute;
+        top: 2px;
+        left: 8px;
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="my-input">
+      <input class="input-main" id="t1" value="" plc="请输入内容" />
+      <span class="plc"></span>
+    </div>
+    <script>
+      ;(function () {
+        const T1 = document.querySelector('#t1'),
+          S1 = document.querySelector('.plc')
+          T1.addEventListener('input',(e)=>{
+              S1.style.display = e.target.value ? 'none':'block'
+          })
+          let placeholder = T1.attributes.plc.nodeValue
+          console.log(placeholder)
+          S1.innerHTML = placeholder
+      })()
+    </script>
+  </body>
+</html>

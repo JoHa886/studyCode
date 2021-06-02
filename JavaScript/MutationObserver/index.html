@@ -5,17 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .my-input {
+        position: relative;
+        width: 200px;
+        height: 20px;
+      }
+      .my-input .input-main {
+        width: 100%;
+        height: 100%;
+      }
+      .plc {
+        position: absolute;
+        top: 2px;
+        left: 8px;
+        color: #ccc;
+      }
+    </style>
   </head>
   <body>
-    <input id="t1" value="aaa" placeholder="请输入" />
+    <div class="my-input">
+      <input class="input-main" id="t1" value="" plc="请输入" />
+      <span class="plc"></span>
+    </div>
     <button id="b1">按钮</button>
-    <div id="d1">aaaaaaaaa
-      <span>123</span>
+    <div id="d1">
+      aaaaaaaaa
+      <span class="sp">123</span>
     </div>
     <script>
       const T1 = document.querySelector('#t1'),
         B1 = document.querySelector('#b1'),
-        D1 = document.querySelector('#d1')
+        D1 = document.querySelector('#d1'),
+        S1 = document.querySelector('.sp')
 
       var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
@@ -25,10 +47,10 @@
           // }
         })
       })
-      // 配置观察选项:
-      var config = { attributes: true, characterData: true, childList: true }
-      // 传入目标节点和观察选项
-      observer.observe(T1, config)
+      // // 配置观察选项:
+      // var config = { attributes: true, characterData: true, childList: true }
+      // // 传入目标节点和观察选项
+      // observer.observe(T1, config)
 
       // var observer = new MutationObserver(function () {
       //   console.debug(T1.value)
@@ -37,27 +59,55 @@
       //   }
       //   console.log(T1)
       // })
-      // //  定义需要监控dom的哪些内容
-      // observer.observe(T1, {
-      //   attributes: true,
-      //   attributeOldValue: false,
-      //   attributeFilter: ['value'],
-      //   characterData: true,
-      //   characterDataOldValue: true
-      // })
+      //  定义需要监控dom的哪些内容
+      observer.observe(T1, {
+        attributes: true,
+        attributeOldValue: false,
+        attributeFilter: ['value'],
+        characterData: true,
+        characterDataOldValue: true
+      })
 
       T1.oninput = function handleInput(e) {
         // console.log(e.target.value, 'e')
         // console.log(T1.value, 'T1')
-        // T1.value = e.target.value
-        // T1.setAttribute('value',e.target.value)
+        T1.value = e.target.value
+        T1.setAttribute('value',e.target.value)
         D1.textContent = e.target.value
       }
       B1.onclick = function handleClick(e) {
-        console.log(T1.attributes, 'attributes')
+        // console.log(T1.attributes, 'attributes')
         // T1.setAttribute('value','123')
         D1.textContent = '222222'
       }
+      // let num = 0
+      // // console.log(+new Date())
+      // let start = +new Date()
+      // let raf = () => {
+      //   num++
+      //   requestAnimationFrame(() => {
+      //     console.log('1')
+      //     S1.style.left = `${num}px`
+      //     if (num < 600) {
+      //       raf()
+      //     } else {
+      //       console.log(+new Date() - start)
+      //     }
+      //   })
+      // }
+      // raf()
+      // let raf = () => {
+      //   num++
+      //   setTimeout(() => {
+      //     S1.style.left = `${num}px`
+      //     if (num < 600) {
+      //       raf()
+      //     } else {
+      //       console.log(+new Date() - start)
+      //     }
+      //   }, 10)
+      // }
+      // raf()
     </script>
   </body>
 </html>
